@@ -1,0 +1,28 @@
+name: stills
+on:
+  workflow_dispatch:
+    inputs:
+      frames:
+        description: "Кадры через запятую, напр. 190,340,1070"
+        required: true
+        default: "190,340,1690"
+jobs:
+  stills:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 \
+            libpango-1.0-0 libcairo2 libasound2t64
+      - run: |
+          for f in $(echo "${{ inputs.frames }}" | tr ',' ' '); do
+            npx remotion still src/index.ts Co out/q_$f.png --frame=$f --gl=swangle --log=error
+          done
+      - uses: actions/upload-artifact@v4
+        with: { name: stills, path: out/q_*.png, retention-days: 7 }

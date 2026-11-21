@@ -1,0 +1,42 @@
+name: render-co
+on:
+  workflow_dispatch:
+    inputs:
+      frames:
+        description: "Кадры, напр. 0-2699 или 450-520"
+        required: false
+        default: ""
+      scale:
+        description: "Масштаб: 1 = 1080p, 0.5 = проба"
+        required: false
+        default: "1"
+jobs:
+  render:
+    # 4 ядра / 16 ГБ — стандартный раннер GitHub; на публичном репо бесплатно
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Chromium libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libpango-1.0-0 libcairo2 libasound2t64
+      - name: Render
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.frames }}" ]; then ARGS="--frames=${{ inputs.frames }}"; fi
+          npx remotion render src/index.ts Co out/co.mp4 $ARGS \
+            --scale=${{ inputs.scale }} --concurrency=4 --gl=swangle --image-format=jpeg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: co-video
+          path: out/co.mp4
+          retention-days: 7
