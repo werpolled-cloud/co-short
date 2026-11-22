@@ -54,13 +54,13 @@ const SceneLick: React.FC<{ f: number }> = ({ f }) => {
   const glow = 0.35 + lift * 0.65;
   const camZ = 4.1 - lift * 0.55;
   const tex = useGirlTexture({
-    lean: 0.05, headTilt: -6 + lift * 3, armL: 0.1, armR: 0.2 + lift * 0.16,
+    lean: 0.05, headTilt: -6 + lift * 3, armL: 0.1, armR: 0.34 + lift * 0.3,
     mouth: 0.15 + lift * 0.5, eyes: "down", hairStyle: 1, hairColor: "#5a3a26", dress: "#6d86b8",
     brush: true, brushToMouth: true, glow,
   });
   return (
     <>
-      <PerspCam pos={[0.12, 1.42, camZ + 1.7]} target={[0.1, 1.05, 1.5]} fov={40} />
+      <PerspCam pos={[0.12, 1.45, camZ + 2.1]} target={[0.1, 1.12, 1.5]} fov={40} />
       <Workshop paintDark={0.25} deskShift={1.1} />
       <><ContactShadow x={0.05} z={1.5} r={0.64} /><Sprite texture={tex} position={[0.05, 1.18, 1.5]} height={2.36} /></>
       <pointLight color="#8bff5a" intensity={4.2 * glow} distance={2.4} position={[0.5, 1.9, 1.6]} />
@@ -76,12 +76,12 @@ const SceneGlow: React.FC<{ f: number }> = ({ f }) => {
   const tex3 = useGirlTexture({ lean: -0.05, headTilt: -2, armL: 0.12, armR: 0.2, mouth: 0.55, eyes: "happy", hairStyle: 0, hairColor: "#7a5230", dress: "#6f9a68", brush: true, glow: 0.8 });
   return (
     <>
-      <PerspCam pos={[0 + back * 0.4, 1.7 + back * 0.2, 5.6 + back * 2.6]} target={[0, 1.0, 0.7]} fov={42} />
+      <PerspCam pos={[0 + back * 0.4, 1.7 + back * 0.2, 7.2 + back * 3.0]} target={[0, 1.05, 0.75]} fov={42} />
       <Workshop paintDark={0.55} deskShift={1.5} />
       <ambientLight intensity={0.16} />
-      <><ContactShadow x={-1.5} z={1.2} r={0.6} /><Sprite texture={tex1} position={[-1.5, 1.16, 1.2]} height={2.32} /></>
+      <><ContactShadow x={-1.5} z={1.2} r={0.6} /><Sprite texture={tex1} position={[-1.25, 1.16, 1.2]} height={2.32} /></>
       <><ContactShadow x={0.1} z={0.7} r={0.58} /><Sprite texture={tex2} position={[0.1, 1.14, 0.7]} height={2.28} /></>
-      <><ContactShadow x={1.6} z={0.2} r={0.56} /><Sprite texture={tex3} position={[1.6, 1.12, 0.2]} height={2.24} /></>
+      <><ContactShadow x={1.6} z={0.2} r={0.56} /><Sprite texture={tex3} position={[1.45, 1.12, 0.35]} height={2.24} /></>
       {[-1.35, 0.05, 1.45].map((x, i) => (
         <pointLight key={i} color="#8bff5a" intensity={3.4} distance={3.2} position={[x + 0.4, 1.85, 1.2 - i * 0.5]} />
       ))}

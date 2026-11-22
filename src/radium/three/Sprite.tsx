@@ -82,10 +82,10 @@ export const drawGirl = (c: HTMLCanvasElement, pose: GirlPose = {}) => {
   // ---------- 1. задние волосы ----------
   const hairLen = (pose.hairStyle ?? 1) === 1 ? 250 : pose.hairStyle === 2 ? 130 : 380;
   const back = new Path2D();
-  back.moveTo(cx - headRX - 8, headCY - 40);
-  back.bezierCurveTo(cx - headRX - 34, headCY + hairLen * 0.5, cx - headRX - 10, headCY + hairLen, cx - 46, headCY + hairLen + 26);
-  back.quadraticCurveTo(cx, headCY + hairLen + 54, cx + 46, headCY + hairLen + 26);
-  back.bezierCurveTo(cx + headRX + 10, headCY + hairLen, cx + headRX + 34, headCY + hairLen * 0.5, cx + headRX + 8, headCY - 40);
+  back.moveTo(cx - headRX + 6, headCY - 30);
+  back.bezierCurveTo(cx - headRX - 8, headCY + hairLen * 0.45, cx - 62, headCY + hairLen * 0.95, cx - 40, headCY + hairLen + 10);
+  back.quadraticCurveTo(cx, headCY + hairLen + 36, cx + 40, headCY + hairLen + 10);
+  back.bezierCurveTo(cx + 62, headCY + hairLen * 0.95, cx + headRX + 8, headCY + hairLen * 0.45, cx + headRX - 6, headCY - 30);
   back.closePath();
   g.fillStyle = hair; g.fill(back);
   g.strokeStyle = INK; g.lineWidth = 9; g.stroke(back);
@@ -244,8 +244,9 @@ export const drawGirl = (c: HTMLCanvasElement, pose: GirlPose = {}) => {
   // ---------- 12. кисть в правой руке ----------
   if (pose.brush) {
     const bx = handR.x, by = handR.y;
-    const tipX = pose.brushToMouth ? hx + 16 : bx - 12;
-    const tipY = pose.brushToMouth ? eyeY + 40 : by - 118;
+    // ворс у губ (слева от рта), ручка — от кисти к ворсу
+    const tipX = pose.brushToMouth ? hx - 26 : bx - 12;
+    const tipY = pose.brushToMouth ? eyeY + 46 : by - 118;
     g.strokeStyle = INK; g.lineWidth = 22;
     g.beginPath(); g.moveTo(bx, by); g.lineTo(tipX, tipY); g.stroke();
     g.strokeStyle = "#a8703a"; g.lineWidth = 14;
