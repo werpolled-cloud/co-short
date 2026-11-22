@@ -1,0 +1,41 @@
+name: probe3d
+on:
+  workflow_dispatch:
+    inputs:
+      scale:
+        description: "1 = 1080p, 0.6 = быстрее"
+        required: false
+        default: "0.6"
+      comps:
+        description: "Композиции через запятую"
+        required: false
+        default: "ProbeDip,ProbeLick,ProbeGlow"
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Chromium libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libpango-1.0-0 libcairo2 libasound2t64
+      - name: Render probes
+        run: |
+          for c in $(echo "${{ inputs.comps }}" | tr ',' ' '); do
+            npx remotion render src/index.ts $c out/$c.mp4 \
+              --scale=${{ inputs.scale }} --concurrency=4 --gl=swangle --image-format=jpeg --log=error
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: probe-videos
+          path: out/*.mp4
+          if-no-files-found: error
+          retention-days: 7
