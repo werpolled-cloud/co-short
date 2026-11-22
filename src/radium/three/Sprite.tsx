@@ -63,7 +63,7 @@ export const drawGirl = (c: HTMLCanvasElement, pose: GirlPose = {}) => {
   const mouth = pose.mouth ?? 0.4;
 
   const cx = W / 2 + (pose.lean ?? 0) * 16;
-  const tilt = (pose.headTilt ?? 0);
+  const tilt = Math.max(-1, Math.min(1, pose.headTilt ?? 0));
 
   // ключевые уровни
   const headCY = 196;         // центр головы
@@ -80,15 +80,18 @@ export const drawGirl = (c: HTMLCanvasElement, pose: GirlPose = {}) => {
   };
 
   // ---------- 1. задние волосы ----------
-  const hairLen = (pose.hairStyle ?? 1) === 1 ? 250 : pose.hairStyle === 2 ? 130 : 380;
-  const back = new Path2D();
-  back.moveTo(cx - headRX + 6, headCY - 30);
-  back.bezierCurveTo(cx - headRX - 8, headCY + hairLen * 0.45, cx - 62, headCY + hairLen * 0.95, cx - 40, headCY + hairLen + 10);
-  back.quadraticCurveTo(cx, headCY + hairLen + 36, cx + 40, headCY + hairLen + 10);
-  back.bezierCurveTo(cx + 62, headCY + hairLen * 0.95, cx + headRX + 8, headCY + hairLen * 0.45, cx + headRX - 6, headCY - 30);
-  back.closePath();
-  g.fillStyle = hair; g.fill(back);
-  g.strokeStyle = INK; g.lineWidth = 9; g.stroke(back);
+  const hairLen = (pose.hairStyle ?? 1) === 1 ? 210 : pose.hairStyle === 2 ? 96 : 300;
+  [-1, 1].forEach((sd) => {
+    const lock = new Path2D();
+    const lx = cx + sd * (headRX - 14);
+    lock.moveTo(lx, headCY - 44);
+    lock.bezierCurveTo(lx + sd * 26, headCY + hairLen * 0.35, lx + sd * 16, headCY + hairLen * 0.8, lx - sd * 4, headCY + hairLen);
+    lock.quadraticCurveTo(lx - sd * 30, headCY + hairLen + 12, lx - sd * 34, headCY + hairLen - 26);
+    lock.bezierCurveTo(lx - sd * 30, headCY + hairLen * 0.6, lx - sd * 26, headCY + hairLen * 0.25, lx - sd * 22, headCY - 40);
+    lock.closePath();
+    g.fillStyle = hair; g.fill(lock);
+    g.strokeStyle = INK; g.lineWidth = 8; g.stroke(lock);
+  });
 
   // ---------- 2. ноги и туфли ----------
   [-1, 1].forEach((s) => {
@@ -245,8 +248,8 @@ export const drawGirl = (c: HTMLCanvasElement, pose: GirlPose = {}) => {
   if (pose.brush) {
     const bx = handR.x, by = handR.y;
     // ворс у губ (слева от рта), ручка — от кисти к ворсу
-    const tipX = pose.brushToMouth ? hx - 26 : bx - 12;
-    const tipY = pose.brushToMouth ? eyeY + 46 : by - 118;
+    const tipX = pose.brushToMouth ? hx + 30 : bx - 12;
+    const tipY = pose.brushToMouth ? eyeY + 44 : by - 118;
     g.strokeStyle = INK; g.lineWidth = 22;
     g.beginPath(); g.moveTo(bx, by); g.lineTo(tipX, tipY); g.stroke();
     g.strokeStyle = "#a8703a"; g.lineWidth = 14;

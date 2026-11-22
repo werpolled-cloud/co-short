@@ -30,7 +30,7 @@ const SceneDip: React.FC<{ f: number }> = ({ f }) => {
   const camZ = 4.9 - smooth(Math.min(1, t * 1.4)) * 0.9;
   const camX = -0.6 + Math.sin(f / 40) * 0.12;
   const tex = useGirlTexture({
-    lean: -0.15, headTilt: -4, armL: 0.12, armR: 0.72 - 0.25 * Math.sin(t * Math.PI),
+    lean: -0.15, headTilt: -0.2, armL: 0.12, armR: 0.72 - 0.25 * Math.sin(t * Math.PI),
     mouth: 0.25, eyes: "down", hairStyle: 1, hairColor: "#5a3a26", dress: "#6d86b8",
     brush: false,
   });
@@ -41,7 +41,7 @@ const SceneDip: React.FC<{ f: number }> = ({ f }) => {
       <><ContactShadow x={0.1} z={1.5} r={0.66} /><Sprite texture={tex} position={[0.1, 1.18, 1.5]} height={2.36} /></>
       {/* вторая девушка дальше, размыта расстоянием */}
       <GirlPos
-        pose={{ lean: 0.1, headTilt: 6, armL: 0.2, armR: 0.3, mouth: 0.6, eyes: "happy", hairStyle: 2, hairColor: "#2e2620", dress: "#b8695a" }}
+        pose={{ lean: 0.1, headTilt: 0.3, armL: 0.2, armR: 0.3, mouth: 0.6, eyes: "happy", hairStyle: 2, hairColor: "#2e2620", dress: "#b8695a" }}
         position={[-2.0, 1.16, 0.9]} height={2.32}
       />
     </>
@@ -54,7 +54,7 @@ const SceneLick: React.FC<{ f: number }> = ({ f }) => {
   const glow = 0.35 + lift * 0.65;
   const camZ = 4.1 - lift * 0.55;
   const tex = useGirlTexture({
-    lean: 0.05, headTilt: -6 + lift * 3, armL: 0.1, armR: 0.34 + lift * 0.3,
+    lean: 0.05, headTilt: -0.25 + lift * 0.1, armL: 0.1, armR: 0.34 + lift * 0.3,
     mouth: 0.15 + lift * 0.5, eyes: "down", hairStyle: 1, hairColor: "#5a3a26", dress: "#6d86b8",
     brush: true, brushToMouth: true, glow,
   });
@@ -71,9 +71,9 @@ const SceneLick: React.FC<{ f: number }> = ({ f }) => {
 const SceneGlow: React.FC<{ f: number }> = ({ f }) => {
   const t = Math.min(1, f / 110);
   const back = smooth(t);
-  const tex1 = useGirlTexture({ lean: -0.08, headTilt: -5, armL: 0.1, armR: 0.2, mouth: 0.75, eyes: "happy", hairStyle: 1, hairColor: "#5a3a26", dress: "#6d86b8", brush: true, glow: 0.9 });
-  const tex2 = useGirlTexture({ lean: 0.1, headTilt: 7, armL: 0.15, armR: 0.25, mouth: 0.8, eyes: "happy", hairStyle: 2, hairColor: "#2e2620", dress: "#b8695a", brush: true, glow: 0.85 });
-  const tex3 = useGirlTexture({ lean: -0.05, headTilt: -2, armL: 0.12, armR: 0.2, mouth: 0.55, eyes: "happy", hairStyle: 0, hairColor: "#7a5230", dress: "#6f9a68", brush: true, glow: 0.8 });
+  const tex1 = useGirlTexture({ lean: -0.08, headTilt: -0.25, armL: 0.1, armR: 0.2, mouth: 0.75, eyes: "happy", hairStyle: 1, hairColor: "#5a3a26", dress: "#6d86b8", brush: true, glow: 0.9 });
+  const tex2 = useGirlTexture({ lean: 0.1, headTilt: 0.35, armL: 0.15, armR: 0.25, mouth: 0.8, eyes: "happy", hairStyle: 2, hairColor: "#2e2620", dress: "#b8695a", brush: true, glow: 0.85 });
+  const tex3 = useGirlTexture({ lean: -0.05, headTilt: -0.1, armL: 0.12, armR: 0.2, mouth: 0.55, eyes: "happy", hairStyle: 0, hairColor: "#7a5230", dress: "#6f9a68", brush: true, glow: 0.8 });
   return (
     <>
       <PerspCam pos={[0 + back * 0.4, 1.7 + back * 0.2, 7.2 + back * 3.0]} target={[0, 1.05, 0.75]} fov={42} />
