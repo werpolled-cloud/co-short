@@ -170,7 +170,7 @@ export const Half: React.FC<{ f: number; years: string; glow?: number }> = ({ f,
     <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 42%, #10281a, #030805 76%)", alignItems: "center", justifyContent: "center" }}>
       <Glow x={0.5} y={0.42} r={620} o={0.2 * glow} />
       <div style={{ ...MB, color: RAD, fontWeight: 900, fontSize: 260, letterSpacing: -8, textShadow: `0 0 60px ${RAD}88`, transform: `scale(${0.9 + p * 0.1})` }}>{years}</div>
-      <div style={{ ...MB, color: "#e7ffe1", fontWeight: 800, fontSize: 54, marginTop: 8, letterSpacing: 2 }}>YEARS — HALF OF IT IS STILL THERE</div>
+      <div style={{ ...MB, color: "#e7ffe1", fontWeight: 800, fontSize: 46, marginTop: 14, letterSpacing: 3, textAlign: "center", lineHeight: 1.2 }}>YEARS — HALF OF IT<br />IS STILL THERE</div>
       <div style={{ display: "flex", gap: 14, marginTop: 90 }}>
         {Array.from({ length: ticks }, (_, i) => (
           <div key={i} style={{ width: 22, height: 96, borderRadius: 6, background: i < lit ? RAD : "#1d3324", boxShadow: i < lit ? `0 0 22px ${RAD}` : "none" }} />
@@ -194,10 +194,9 @@ export const Atom: React.FC<{ f: number; swap: number }> = ({ f, swap }) => {
   return (
     <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 45%, #12202c, #04080c 76%)" }}>
       <svg viewBox="0 0 1080 1920" width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
-        <AtomIcon x={320} c="#dfe7ee" label="Ca" />
-        <AtomIcon x={760} c={RAD} label="Ra" />
-        <text x={540} y={1420} textAnchor="middle" fontFamily="Montserrat" fontSize={44} fontWeight={800} fill="#bcd2c4">SAME SIZE. SAME CHARGE.</text>
-        <text x={540} y={1500} textAnchor="middle" fontFamily="Montserrat" fontSize={44} fontWeight={800} fill="#7d9c8a">YOUR BODY CAN'T TELL THEM APART</text>
+        <AtomIcon x={280} c="#dfe7ee" label="Ca" />
+        <AtomIcon x={800} c={RAD} label="Ra" />
+        <text x={540} y={905} textAnchor="middle" fontFamily="Montserrat" fontSize={120} fontWeight={900} fill="#f2f7f4">=</text>
       </svg>
     </AbsoluteFill>
   );
@@ -452,9 +451,9 @@ export const Law: React.FC<{ f: number; year: string }> = ({ f, year }) => {
   return (
     <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 42%, #101f2c, #03070b 78%)", alignItems: "center", justifyContent: "center", padding: "0 80px" }}>
       <Glow x={0.5} y={0.4} r={520} o={0.18} />
-      <div style={{ ...MB, color: "#f4f8ff", fontWeight: 900, fontSize: 210, letterSpacing: -6, opacity: p, transform: `translateY(${(1 - p) * 30}px)` }}>{year}</div>
-      <div style={{ ...MB, color: RAD, fontWeight: 900, fontSize: 52, textAlign: "center", marginTop: 22, lineHeight: 1.15 }}>RADIUM POISONING BECOMES A COMPENSABLE DISEASE</div>
-      <div style={{ ...MB, color: "#ff6a4a", fontWeight: 800, fontSize: 44, textAlign: "center", marginTop: 34, opacity: p }}>BUT THE 2-YEAR LIMIT HAD ALREADY RUN OUT</div>
+      <div style={{ position: "absolute", top: "22%", left: 0, right: 0, textAlign: "center", ...MB, color: "#f4f8ff", fontWeight: 900, fontSize: 210, letterSpacing: -6, opacity: p, transform: `translateY(${(1 - p) * 30}px)` }}>{year}</div>
+      <div style={{ position: "absolute", top: "42%", left: "9%", right: "9%", textAlign: "center", ...MB, color: RAD, fontWeight: 900, fontSize: 48, lineHeight: 1.16 }}>RADIUM POISONING BECOMES<br />A COMPENSABLE DISEASE</div>
+      <div style={{ position: "absolute", top: "56%", left: "9%", right: "9%", textAlign: "center", ...MB, color: "#ff6a4a", fontWeight: 800, fontSize: 40, lineHeight: 1.2, opacity: p }}>BUT THE 2-YEAR LIMIT<br />HAD ALREADY RUN OUT</div>
     </AbsoluteFill>
   );
 };
