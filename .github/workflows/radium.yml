@@ -1,0 +1,59 @@
+name: radium
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "render | stills"
+        required: false
+        default: "render"
+      frames:
+        description: "Только для render: напр. 0-300 (пусто = весь ролик)"
+        required: false
+        default: ""
+      still_frames:
+        description: "Только для stills: кадры через запятую"
+        required: false
+        default: "40,250,550,850,1290,1740"
+      scale:
+        description: "1 = 1080p, 0.5 = проба"
+        required: false
+        default: "1"
+jobs:
+  radium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install deps
+        run: npm ci
+      - name: Chromium libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libatk1.0-0 libatk-bridge2.0-0 \
+            libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libpango-1.0-0 libcairo2 libasound2t64
+      - name: Render video
+        if: ${{ inputs.mode != 'stills' }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.frames }}" ]; then ARGS="--frames=${{ inputs.frames }}"; fi
+          npx remotion render src/index.ts Radium out/radium.mp4 $ARGS \
+            --scale=${{ inputs.scale }} --concurrency=4 --gl=swangle --image-format=jpeg --log=error
+      - name: Stills
+        if: ${{ inputs.mode == 'stills' }}
+        run: |
+          for f in $(echo "${{ inputs.still_frames }}" | tr ',' ' '); do
+            npx remotion still src/index.ts Radium out/q_$f.png --frame=$f --scale=${{ inputs.scale }} --gl=swangle --log=error
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: radium-out
+          path: |
+            out/radium.mp4
+            out/q_*.png
+          if-no-files-found: error
+          retention-days: 7

@@ -4,6 +4,7 @@ import { PaperTest } from "./demos/PaperTest";
 import { VesselTest } from "./demos/VesselTest";
 import { RabiesVideo, RABIES_FRAMES } from "./rabies/RabiesVideo";
 import { CoVideo, CO_FRAMES } from "./co/CoVideo";
+import { RadiumVideo, RADIUM_FRAMES } from "./radium/RadiumVideo";
 
 // Новый ролик: скопировать src/rabies → src/<slug>, поменять shots.json / сцены / music_plan.json,
 // и добавить сюда <Composition id="<Slug>" ...> по образцу Rabies.
@@ -13,5 +14,6 @@ export const Root: React.FC = () => (
     <Composition id="DemoPaperHeart" component={PaperTest} durationInFrames={225} fps={30} width={1080} height={1920} />
     <Composition id="DemoVessel3D" component={VesselTest} durationInFrames={225} fps={30} width={1080} height={1920} />
     <Composition id="Co" component={CoVideo} durationInFrames={CO_FRAMES} fps={30} width={1080} height={1920} />
+    <Composition id="Radium" component={RadiumVideo} durationInFrames={RADIUM_FRAMES} fps={30} width={1080} height={1920} />
   </>
 );
